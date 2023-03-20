@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <html>
+        <head>
+            <title>Tic Tac Toe</title>
+            <style>
+                .board {
+                    display: flex;
+                    flex-wrap: wrap;
+                    width: 300px;
+                    height: 300px;
+                    background-color: #ccc;
+                    border: 5px solid #444;
+                    box-sizing: border-box;
+                    margin: 0 auto;
+                    padding: 5px;
+                }
+        
+                .cell {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30%;
+                    height: 30%;
+                    background-color: white;
+                    border: 1px solid #444;
+                    font-size: 80px;
+                    font-weight: bold;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    user-select: none;
+                }
+        
+                .cell:nth-child(3n+1) {
+                    border-left: none;
+                }
+        
+                .cell:nth-child(n+7) {
+                    border-top: none;
+                }
+        
+                .cell:hover {
+                    background-color: #eee;
+                }
+        
+                .cell.x {
+                    color: #f00;
+                }
+        
+                .cell.o {
+                    color: #00f;
+                }
+        
+                .message {
+                    text-align: center;
+                    font-size: 30px;
+                    margin-top: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="board">
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+            </div>
+            <div class="message"></div>
+        
+            <script>
+                let board = document.querySelector('.board');
+                let cells = board.querySelectorAll('.cell');
+                let message = document.querySelector('.message');
+        
+                let currentPlayer = 'x';
+                let gameOver = false;
+                let winningCombos = [
+                    [0, 1, 2],
+                    [3, 4, 5],
+                    [6, 7, 8],
+                    [0, 3, 6],
+                    [1, 4, 7],
+                    [2, 5, 8],
+                    [0, 4, 8],
+                    [2, 4, 6]
+                ];
+        
+                cells.forEach(cell => {
+                    cell.addEventListener('click', handleClick);
+                });
+        
+                function handleClick(event) {
+                    if (gameOver) {
+                        return;
+                    }
+                    if (event.target.classList.contains('x') || event.target.classList.contains('o')) {
+                        return;
+                    }
+                    event.target.classList.add(currentPlayer);
+                    event.target.textContent = currentPlayer;
+                    checkWin();
+                    switchPlayer();
+                }
+        
+                function checkWin() {
+                    winningCombos.forEach(combo => {
+                        if (cells[combo[0]].classList.contains(currentPlayer) &&
+                            cells[combo[1]].classList.contains(currentPlayer) &&
+                            cells[combo[2]].classList.contains(currentPlayer)) {
+                                gameOver = true;
+                                message.textContent = currentPlayer.toUpperCase() + ' wins!';
+                        }
+                    });
+                }
+        
+                function switchPlayer() {
+                    currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+                }
+            </script>
+        
+        
+        
+</body>
+</html>
